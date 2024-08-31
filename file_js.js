@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadForm = document.getElementById('uploadForm');
     const mediaFileInput = document.getElementById('mediaFile');
     const generateLobbyButton = document.getElementById('generateLobby');
-    
+
     let mediaType = '';
     let mediaFileUrl = '';
 
@@ -31,12 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const file = mediaFileInput.files[0];
         if (file) {
             mediaFileUrl = URL.createObjectURL(file);
+            alert('File uploaded successfully.');
         }
     });
 
     generateLobbyButton.addEventListener('click', () => {
+        if (!mediaFileUrl) {
+            alert('Please upload a file first.');
+            return;
+        }
         const lobbyId = Date.now(); // Use current timestamp as lobby ID
-        const url = `stream.html?lobby=${lobbyId}&file=${encodeURIComponent(mediaFileUrl)}`;
+        const url = `stream.html?lobby=${lobbyId}&type=${mediaType}&file=${encodeURIComponent(mediaFileUrl)}`;
         window.location.href = url;
     });
 });
